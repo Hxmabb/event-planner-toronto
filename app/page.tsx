@@ -16,7 +16,7 @@ Notes:
 - Hook the “Request a Quote” button to your form/CRM later.
 */
 
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ArrowRight, ChevronDown, Mail, MapPin, Phone, Star } from "lucide-react";
 
 // --- tiny helpers ---
@@ -97,6 +97,49 @@ const SERVICES = [
     ],
   },
 ];
+const SERVICE_DETAILS = [
+  {
+    title: "Team building events",
+    desc: "Interactive activities that boost morale, communication, and team culture.",
+  },
+  {
+    title: "Conferences & meeting management",
+    desc: "Venue sourcing, schedules, speakers, registrations, and onsite coordination.",
+  },
+  {
+    title: "Corporate entertainment",
+    desc: "DJs, live performers, MCs, games, and high-energy programming.",
+  },
+  {
+    title: "Brand activations",
+    desc: "Pop-ups and experiential campaigns designed for attention and engagement.",
+  },
+  {
+    title: "Holiday parties (including Christmas & seasonal events)",
+    desc: "Themes, decor, entertainment, food, and a polished run-of-show.",
+  },
+  {
+    title: "Company BBQs & family picnics",
+    desc: "Outdoor-friendly planning with games, food, tents, staffing, and flow.",
+  },
+  {
+    title: "Virtual and hybrid events",
+    desc: "Remote-first experiences with strong participation and clear logistics.",
+  },
+  {
+    title: "Online activities and engagement",
+    desc: "Trivia, game shows, workshops, and hosted team experiences.",
+  },
+  {
+    title: "Hosted virtual parties or team building",
+    desc: "Facilitated sessions that feel fun and smooth, not awkward.",
+  },
+  {
+    title: "Tech support for virtual/hybrid formats",
+    desc: "Platform setup, run-of-show, troubleshooting, and moderator support.",
+  },
+];
+
 
 
 const BLOG = [
@@ -209,10 +252,24 @@ function PlaceholderImage({ label }: { label: string }) {
 }
 
 function DesktopNav() {
+  const [openLabel, setOpenLabel] = useState<string | null>(null);
+  const navRef = useRef<HTMLDivElement | null>(null);
+
+  // close dropdown when clicking outside
+  useEffect(() => {
+    function onDocClick(e: MouseEvent) {
+      if (!navRef.current) return;
+      if (!navRef.current.contains(e.target as Node)) setOpenLabel(null);
+    }
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
+
   return (
-    <nav className="hidden items-center gap-2 md:flex">
+    <div ref={navRef} className="hidden items-center gap-2 md:flex">
       {NAV.map((item) => {
         const hasChildren = !!item.children?.length;
+
         if (!hasChildren) {
           return (
             <a
@@ -224,30 +281,48 @@ function DesktopNav() {
             </a>
           );
         }
+
+        const isOpen = openLabel === item.label;
+
         return (
-          <div key={item.label} className="group relative">
-            <button className="inline-flex items-center gap-1 rounded-xl px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-100">
-              {item.label} <ChevronDown className="h-4 w-4" />
+          <div key={item.label} className="relative">
+            <button
+              type="button"
+              onClick={() => setOpenLabel(isOpen ? null : item.label)}
+              className={cn(
+                "inline-flex items-center gap-1 rounded-xl px-3 py-2 text-sm font-semibold text-neutral-700 hover:bg-neutral-100",
+                isOpen && "bg-neutral-100"
+              )}
+            >
+              {item.label} <ChevronDown className={cn("h-4 w-4 transition", isOpen && "rotate-180")} />
             </button>
-            <div className="invisible absolute left-0 top-full z-40 mt-2 w-[340px] translate-y-2 rounded-3xl border border-neutral-200 bg-white p-3 opacity-0 shadow-xl transition group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-              <div className="grid gap-1">
-                {item.children!.map((c) => (
-                  <a
-                    key={c.label}
-                    href={c.href}
-                    className="rounded-2xl px-4 py-3 text-sm font-semibold text-neutral-800 hover:bg-neutral-50"
-                  >
-                    {c.label}
-                  </a>
-                ))}
+
+            {isOpen ? (
+              <div className="absolute left-0 top-full z-40 mt-2 w-[360px] rounded-3xl border border-neutral-200 bg-white p-3 shadow-xl">
+                <div className="grid gap-1">
+                  {item.children!.map((c) => (
+                    <a
+                      key={c.label}
+                      href={c.href}
+                      onClick={() => setOpenLabel(null)}
+                      className="rounded-2xl px-4 py-3 text-sm font-semibold text-neutral-800 hover:bg-neutral-50"
+                    >
+                      {c.label}
+                      <div className="mt-0.5 text-xs font-medium text-neutral-500">
+                        View details
+                      </div>
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : null}
           </div>
         );
       })}
-    </nav>
+    </div>
   );
 }
+
 
 export default function Page() {
   return (
@@ -268,9 +343,13 @@ export default function Page() {
           <DesktopNav />
 
           <div className="flex items-center gap-2">
-            <Button variant="secondary" href="#contact">
+          <Button variant="secondary" href="#services">
+              Services
+          </Button>
+          <Button variant="secondary" href="#contact">
               Contact
-            </Button>
+          </Button>
+
             <Button href="#quote">
               Request a Quote <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
@@ -358,6 +437,37 @@ export default function Page() {
     </Card>
   ))}
 </div>
+{/* 🔥 ADD THIS BLOCK */}
+<div className="mt-12">
+  <div className="flex items-end justify-between gap-4">
+    <div>
+      <h3 className="text-xl font-semibold tracking-tight">All services</h3>
+      <p className="mt-1 text-sm text-neutral-600">
+        Browse everything we offer—click “Request a Quote” when you’re ready.
+      </p>
+    </div>
+
+    <Button variant="secondary" href="#quote">
+      Request a Quote <ArrowRight className="ml-2 h-4 w-4" />
+    </Button>
+  </div>
+
+  <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {SERVICE_DETAILS.map((s) => (
+      <Card key={s.title}>
+        <div className="text-base font-bold">{s.title}</div>
+        <p className="mt-2 text-sm text-neutral-600">{s.desc}</p>
+        <a
+          href="#quote"
+          className="mt-4 inline-flex items-center text-sm font-semibold text-neutral-900"
+        >
+          Get pricing <ArrowRight className="ml-2 h-4 w-4" />
+        </a>
+      </Card>
+    ))}
+  </div>
+</div>
+
         </div>
       </section>
 
