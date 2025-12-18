@@ -6,7 +6,7 @@ Each dropdown item scrolls to a dedicated section with real content.
 */
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowRight, ChevronDown, Mail, MapPin, Phone, Star } from "lucide-react";
+import { ArrowRight, ChevronDown, Mail, MapPin, Phone, Star, Sparkles, ShieldCheck, Users, CalendarCheck, BadgeCheck, Wrench } from "lucide-react";
 
 // --- tiny helpers ---
 function cn(...classes: Array<string | false | null | undefined>) {
@@ -561,24 +561,117 @@ export default function Page() {
       </section>
 
       {/* Values */}
-      <section className="border-t border-neutral-200 bg-neutral-50">
-        <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
-          <SectionTitle
-            eyebrow="The difference"
-            title="Why clients pick you"
-            subtitle="Trust-building blocks you can reuse across pages."
-          />
+<section className="relative overflow-hidden border-t border-neutral-200 bg-neutral-50">
+  {/* soft background glow */}
+  <div className="pointer-events-none absolute inset-0 -z-10">
+    <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-white/60 blur-2xl" />
+    <div className="absolute -right-24 bottom-10 h-80 w-80 rounded-full bg-white/60 blur-2xl" />
+  </div>
 
-          <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {VALUES.map((v) => (
-              <Card key={v.title}>
-                <div className="text-lg font-bold">{v.title}</div>
-                <p className="mt-2 text-sm text-neutral-600">{v.desc}</p>
-              </Card>
-            ))}
+  <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
+    <div className="grid items-end gap-8 md:grid-cols-12">
+      <div className="md:col-span-7">
+        <div className="inline-flex items-center gap-2 rounded-full bg-white px-4 py-2 text-xs font-semibold text-neutral-700 ring-1 ring-neutral-200">
+          <Sparkles className="h-4 w-4" />
+          The difference
+        </div>
+
+        <h2 className="mt-4 text-3xl font-semibold tracking-tight text-neutral-900 sm:text-4xl">
+          Why clients pick you
+        </h2>
+
+        <p className="mt-3 max-w-2xl text-base text-neutral-600">
+          Clear planning, premium execution, and staff who know the run-of-show.
+          The result: fewer surprises, smoother timelines, and better guest energy.
+        </p>
+      </div>
+
+      <div className="md:col-span-5 md:justify-self-end">
+        <div className="flex flex-wrap gap-3">
+          <Button variant="secondary" href="#gallery">
+            See examples <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+          <Button href="#quote">
+            Request a Quote <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="mt-4 grid grid-cols-3 gap-3">
+          <div className="rounded-2xl bg-white p-3 ring-1 ring-neutral-200">
+            <div className="text-lg font-extrabold text-neutral-900">15+</div>
+            <div className="text-xs font-semibold text-neutral-600">Years</div>
+          </div>
+          <div className="rounded-2xl bg-white p-3 ring-1 ring-neutral-200">
+            <div className="text-lg font-extrabold text-neutral-900">500+</div>
+            <div className="text-xs font-semibold text-neutral-600">Events/yr</div>
+          </div>
+          <div className="rounded-2xl bg-white p-3 ring-1 ring-neutral-200">
+            <div className="text-lg font-extrabold text-neutral-900">24h</div>
+            <div className="text-xs font-semibold text-neutral-600">Response</div>
           </div>
         </div>
-      </section>
+      </div>
+    </div>
+
+    <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {[
+        {
+          title: "Innovation",
+          desc: "Fresh themes, modern formats, and smart production choices that keep events feeling current.",
+          Icon: BadgeCheck,
+        },
+        {
+          title: "Service",
+          desc: "Fast replies, clear quotes, and proactive updates so you’re never guessing what’s next.",
+          Icon: ShieldCheck,
+        },
+        {
+          title: "Training",
+          desc: "Friendly staff who know timing, crowd flow, and how to run the show without chaos.",
+          Icon: Users,
+        },
+        {
+          title: "Approach",
+          desc: "Checklists, timelines, and contingencies baked in—so the event stays smooth under pressure.",
+          Icon: CalendarCheck,
+        },
+        {
+          title: "Family",
+          desc: "Long-term relationships and repeat clients because we care about the details every time.",
+          Icon: BadgeCheck,
+        },
+        {
+          title: "Experience",
+          desc: "We’ve seen the edge cases. That’s how we prevent problems before they show up.",
+          Icon: Wrench,
+        },
+      ].map((v) => (
+        <div
+          key={v.title}
+          className="group rounded-3xl border border-neutral-200 bg-white p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+        >
+          <div className="flex items-start gap-4">
+            <div className="grid h-11 w-11 place-items-center rounded-2xl bg-neutral-900 text-white">
+              <v.Icon className="h-5 w-5" />
+            </div>
+
+            <div className="min-w-0">
+              <div className="text-lg font-bold text-neutral-900">{v.title}</div>
+              <p className="mt-2 text-sm text-neutral-600">{v.desc}</p>
+
+              <a
+                href="#quote"
+                className="mt-4 inline-flex items-center text-sm font-semibold text-neutral-900"
+              >
+                Get pricing <ArrowRight className="ml-2 h-4 w-4" />
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Gallery */}
       <section id="gallery" className="scroll-mt-28 border-t border-neutral-200">
