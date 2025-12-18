@@ -74,20 +74,30 @@ const STATS = [
 const SERVICES = [
   {
     title: "Corporate Event Planning",
-    desc: "End-to-end planning, creative direction, vendor coordination, and on-site production.",
-    tag: "Plan your event",
-  },
-  {
-    title: "Interactive Party Rentals",
-    desc: "Photo booths, games, fun foods, decor, and ‘Instagrammable’ moments with white‑glove delivery.",
-    tag: "Rental options",
+    desc: "Full-service planning and production for corporate events across Toronto and the GTA.",
+    tag: "Corporate services",
+    items: [
+      "Team building events",
+      "Conferences & meeting management",
+      "Corporate entertainment",
+      "Brand activations",
+      "Holiday parties (including Christmas & seasonal events)",
+      "Company BBQs & family picnics",
+    ],
   },
   {
     title: "Virtual & Hybrid Events",
-    desc: "Online activities, hosted games, and hybrid engagement so teams still connect.",
-    tag: "Virtual options",
+    desc: "Remote-friendly experiences that keep teams connected—anywhere.",
+    tag: "Virtual services",
+    items: [
+      "Virtual and hybrid events",
+      "Online activities and engagement",
+      "Hosted virtual parties or team building",
+      "Tech support for virtual/hybrid formats",
+    ],
   },
 ];
+
 
 const BLOG = [
   {
@@ -327,20 +337,27 @@ export default function Page() {
             subtitle="Pick a lane—or bundle everything into one streamlined production partner."
           />
 
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {SERVICES.map((s) => (
-              <Card key={s.title}>
-                <div className="text-lg font-bold">{s.title}</div>
-                <p className="mt-2 text-sm text-neutral-600">{s.desc}</p>
-                <a
-                  href="#quote"
-                  className="mt-5 inline-flex items-center text-sm font-semibold text-neutral-900"
-                >
-                  {s.tag} <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
-              </Card>
-            ))}
-          </div>
+          <div className="mt-10 grid gap-5 md:grid-cols-2">
+  {SERVICES.map((s) => (
+    <Card key={s.title}>
+      <div className="text-lg font-bold">{s.title}</div>
+      <p className="mt-2 text-sm text-neutral-600">{s.desc}</p>
+
+      <ul className="mt-4 space-y-2 text-sm text-neutral-700">
+        {s.items.map((item) => (
+          <li key={item} className="flex gap-2">
+            <span className="mt-[6px] h-1.5 w-1.5 shrink-0 rounded-full bg-neutral-400" />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+
+      <a href="#quote" className="mt-5 inline-flex items-center text-sm font-semibold text-neutral-900">
+        {s.tag} <ArrowRight className="ml-2 h-4 w-4" />
+      </a>
+    </Card>
+  ))}
+</div>
         </div>
       </section>
 
