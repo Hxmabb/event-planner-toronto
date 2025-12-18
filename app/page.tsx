@@ -402,7 +402,7 @@ export default function Page() {
               P!
             </div>
             <div className="leading-tight">
-              <div className="text-sm font-extrabold tracking-tight">Event Planner Toronto</div>
+              <div className="text-sm font-extrabold tracking-tight">Catalyst Events Group</div>
               <div className="text-xs font-semibold text-neutral-500">Corporate • Rentals • Activations</div>
             </div>
           </a>
@@ -834,7 +834,7 @@ export default function Page() {
                   P!
                 </div>
                 <div>
-                  <div className="text-sm font-extrabold">Event Planner Toronto</div>
+                  <div className="text-sm font-extrabold">Catalyst Events Group</div>
                   <div className="text-xs font-semibold text-neutral-500">Corporate • Rentals • Activations</div>
                 </div>
               </div>
@@ -876,7 +876,7 @@ export default function Page() {
           </div>
 
           <div className="mt-10 flex flex-col gap-2 border-t border-neutral-200 pt-6 text-xs text-neutral-500 md:flex-row md:items-center md:justify-between">
-            <div>© {new Date().getFullYear()} Event Planner Toronto. All rights reserved.</div>
+            <div>© {new Date().getFullYear()} Catalyst Events Group. All rights reserved.</div>
             <div className="flex gap-4">
               <a href="#" className="hover:underline">
                 Privacy
